@@ -2,7 +2,7 @@ import React from "react"
 import "bulma/css/bulma.min.css"
 import { Hero, Container, Box, Button, Field, Label, Form } from "react-bulma-components"
 
-export function NewPactForm() {
+export function NewPactForm({ createPact }) {
     return (
         <div>
             <Hero size="fullheight">
@@ -23,7 +23,9 @@ export function NewPactForm() {
                                 </Form.Control>
                             </Form.Field>
 
-                            <Button color="grey-light">Submit</Button>
+                            <Button color="grey-light" onClick={ () => {
+                                createPact()
+                            }}>Submit</Button>
                         </Box>
                     </Container>
                 </Hero.Body>

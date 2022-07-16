@@ -47,7 +47,7 @@ export class Dapp extends React.Component {
 
     return (
       <div>
-        <NewPactForm />
+        <NewPactForm createPact={ this._createPact }/>
       </div>
     )
   }
@@ -138,5 +138,9 @@ export class Dapp extends React.Component {
     })
 
     return false
+  }
+
+  async _createPact() {
+    console.log("hi.")
   }
 }
