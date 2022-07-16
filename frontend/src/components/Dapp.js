@@ -11,6 +11,7 @@ import { Transfer } from "./Transfer"
 import { TransactionErrorMessage } from "./TransactionErrorMessage"
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage"
 import { NoTokensMessage } from "./NoTokensMessage"
+import { NewPactForm } from "./NewPactForm"
 
 const HARDHAT_NETWORK_ID = '1337'
 
@@ -46,7 +47,7 @@ export class Dapp extends React.Component {
 
     return (
       <div>
-        <h1>Your current connected address is: { this.state.selectedAddress }</h1>
+        <NewPactForm />
       </div>
     )
   }
@@ -55,7 +56,7 @@ export class Dapp extends React.Component {
     // We poll the user's balance, so we have to stop doing that when Dapp
     // gets unmounted
     // this._stopPollingData()
-  }
+  }//
 
   async _connectWallet() {
     const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' })
