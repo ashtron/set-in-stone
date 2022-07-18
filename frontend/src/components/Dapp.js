@@ -140,7 +140,8 @@ export class Dapp extends React.Component {
     return false
   }
 
-  async _createPact() {
-    console.log("hi.")
+  _createPact = async (description, address) => {
+    this._setInStone.createPact(description, address)
+      .then(console.log(await this._setInStone.getPact(ethers.utils.parseEther("0"))))
   }
 }
