@@ -14,6 +14,8 @@ contract SetInStone {
 
     Pact[] pacts;
 
+    mapping(address => uint[]) public pactIndex;
+
     error WrongAddress();
 
     modifier onlyTaker(uint index, address addr) {
@@ -26,6 +28,7 @@ contract SetInStone {
 
     function createPact(string memory description, address taker) public {
         pacts.push(Pact(description, msg.sender, taker, Status.Pending));
+        pactIndex[msg.sender].push(pacts.length - 1);
     }
 
     function confirmPact(uint index) public onlyTaker(index, msg.sender) {
@@ -34,5 +37,9 @@ contract SetInStone {
 
     function getPact(uint index) public view returns (Pact memory) {
         return pacts[index];
+    }
+
+    function getPactsByAddress(address addr) public view returns (uint[] memory) {
+        return pactIndex[addr];
     }
 }

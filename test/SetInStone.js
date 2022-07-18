@@ -9,25 +9,23 @@ describe("SetInStone contract", function() {
         const SetInStone = await SetInStoneFactory.deploy()
         await SetInStone.deployed()
 
-        return { SetInStoneFactory, SetInStone, signer1, signer2 }
-    }
+        const description = "We hereby solemnly swear to..."
 
-    async function createPact(contract, description, taker) {
-        await contract.createPact(description, taker)
+        return { SetInStone, signer1, signer2, description }
     }
 
     it("Should create a new pact", async function() {
-        const { SetInStone, signer2 } = await loadFixture(deployTokenFixture)
+        const { SetInStone, signer2, description } = await loadFixture(deployTokenFixture)
 
-        createPact(SetInStone, "We hereby solemnly swear to...", signer2.address)
+        await SetInStone.createPact(description, signer2.address)
         const pactAddress = Array.from(await SetInStone.getPact(0))[2]
         expect(pactAddress).to.equal(signer2.address)
     })
 
     it("Should allow pacts to be confirmed", async function() {
-        const { SetInStone, signer2 } = await loadFixture(deployTokenFixture)
+        const { SetInStone, signer2, description } = await loadFixture(deployTokenFixture)
         
-        createPact(SetInStone, "We hereby solemnly swear to...", signer2.address)
+        await SetInStone.createPact(description, signer2.address)
         await SetInStone.connect(signer2).confirmPact(0)
 
         const status = Array.from(await SetInStone.getPact(0))[3]
@@ -36,12 +34,25 @@ describe("SetInStone contract", function() {
     })
 
     it("Should only allow the taker to confirm a pact", async function() {
-        const { SetInStone, signer2 } = await loadFixture(deployTokenFixture)
+        const { SetInStone, signer2, description } = await loadFixture(deployTokenFixture)
         
-        createPact(SetInStone, "We hereby solemnly swear to...", signer2.address)
+        await SetInStone.createPact(description, signer2.address)
         await expect(SetInStone.confirmPact(0)).to.be.reverted
 
         const status = Array.from(await SetInStone.getPact(0))[3]
         expect(status).to.equal(0)
+    })
+
+    it("Should retrieve pacts by address", async function() {
+        const { SetInStone, signer1, signer2, description } = await loadFixture(deployTokenFixture)
+
+        await SetInStone.createPact(description, signer2.address)
+        await SetInStone.connect(signer2).createPact(description, signer1.address)
+        await SetInStone.createPact(description, signer2.address)
+
+        const pacts = await SetInStone.getPactsByAddress(signer1.address)
+        
+        expect(pacts[0]).to.equal(0)
+        expect(pacts[1]).to.equal(2)
     })
 })
