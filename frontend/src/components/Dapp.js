@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { ethers } from "ethers"
 
 import SetInStoneArtifact from "../contracts/SetInStone.json"
@@ -20,35 +20,28 @@ const HARDHAT_NETWORK_ID = '1337'
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001
 
-export class Dapp extends React.Component {
-  constructor(props) {
-    super(props)
+const CreatePactContext = React.createContext()
 
-    this.initialState = {
-      selectedAddress: undefined,
-      balance: undefined,
-      networkError: undefined
-    }
+export function Dapp() {
+  const [selectedAddress, setSelectedAddress] = useState("")
+  const [balance, setBalance] = useState("")
+  const [networkError, setNetworkError] = useState("")
 
-    this.state = this.initialState
+  if (window.ethereum === undefined) {
+    return <NoWalletDetected />
   }
 
-  render() {
-    if (window.ethereum === undefined) {
-      return <NoWalletDetected />
-    }
-
-    if (!this.state.selectedAddress) {
-      return (
-        <ConnectWallet 
-          connectWallet={() => this._connectWallet()} 
-          networkError={this.state.networkError}
-          dismiss={() => this._dismissNetworkError()}
-        />
-      )
-    }
-
+  if (!this.state.selectedAddress) {
     return (
+      <ConnectWallet 
+        connectWallet={() => this._connectWallet()} 
+        networkError={this.state.networkError}
+        dismiss={() => this._dismissNetworkError()}
+      />
+    )
+  }
+
+  return (
       <div>
         <nav>
           <Link to="/pacts">My Pacts</Link>{ " | " }
@@ -77,15 +70,15 @@ export class Dapp extends React.Component {
         // <NewPactForm createPact={ this._createPact }/>
       // </div>
     )
-  }
+  // }
 
-  componentWillUnmount() {
-    // We poll the user's balance, so we have to stop doing that when Dapp
-    // gets unmounted
-    // this._stopPollingData()
-  }//
+  // componentWillUnmount() {
+  //   We poll the user's balance, so we have to stop doing that when Dapp
+  //   gets unmounted
+  //   this._stopPollingData()
+  // }
 
-  async _connectWallet() {
+  async function _connectWallet() {
     const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' })
 
     if (!this._checkNetwork()) {
@@ -110,17 +103,15 @@ export class Dapp extends React.Component {
     })
   }
 
-  _initialize(userAddress) {
-    this.setState({
-      selectedAddress: userAddress
-    })
+  function _initialize(userAddress) {
+    setSelectedAddress(userAddress)
 
-    this._initializeEthers()
+    _initializeEthers()
     // this._getTokenData()
     // this._startPollingData()
   }
 
-  async _initializeEthers() {
+  async function _initializeEthers() {
     this._provider = new ethers.providers.Web3Provider(window.ethereum)
 
     this._setInStone = new ethers.Contract(
@@ -130,19 +121,19 @@ export class Dapp extends React.Component {
     )
   }
 
-  _startPollingData() {
+  function _startPollingData() {
     this._pollDataInterval = setInterval(() => this._updateBalance(), 1000)
 
     // We run it once immediately so we don't have to wait for it
     this._updateBalance()
   }
 
-  _stopPollingData() {
+ function _stopPollingData() {
     clearInterval(this._pollDataInterval)
     this._pollDataInterval = undefined
   }
 
-  _getRpcErrorMessage(error) {
+  function _getRpcErrorMessage(error) {
     if (error.data) {
       return error.data.message
     }
@@ -150,24 +141,24 @@ export class Dapp extends React.Component {
     return error.message
   }
 
-  _resetState() {
-    this.setState(this.initialState)
+  function _resetState() {
+    setSelectedAddress("")
+    setBalance("")
+    setNetworkError("")
   }
 
-  _checkNetwork() {
+  function _checkNetwork() {
     console.log("window.ethereum.networkVersion:", window.ethereum.networkVersion)
     if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
       return true
     }
 
-    this.setState({ 
-      networkError: 'Please connect Metamask to Localhost:8545'
-    })
+    setNetworkError('Please connect Metamask to Localhost:8545')
 
     return false
   }
 
-  _createPact = async (description, address) => {
+  async function _createPact(description, address) {
     this._setInStone.createPact(description, address)
   }
 }
