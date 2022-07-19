@@ -40,9 +40,7 @@ export function Dapp() {
   }, [provider])
 
   useEffect(() => {
-    if (selectedAddress) {
-      _initialize(selectedAddress)
-    }
+    _initialize(selectedAddress)
   }, [selectedAddress])
 
   if (window.ethereum === undefined) {
@@ -54,7 +52,6 @@ export function Dapp() {
       <ConnectWallet 
         connectWallet={() => _connectWallet()} 
         networkError={networkError}
-        // dismiss={() => _dismissNetworkError()}
       />
     )
   }
