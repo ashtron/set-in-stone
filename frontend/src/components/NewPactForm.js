@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react"
-import { CreatePactContext } from "./Dapp"
+import { PactViewsContext } from "./Dapp"
 
 import "bulma/css/bulma.min.css"
 import { Button, Field, Label, Form } from "react-bulma-components"
 
 export function NewPactForm() {
-    const createPact = useContext(CreatePactContext)
+    const createPact = useContext(PactViewsContext).createPact
 
     const [description, setDescription] = useState("")
     const [address, setAddress] = useState("")

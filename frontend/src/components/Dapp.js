@@ -20,7 +20,7 @@ const HARDHAT_NETWORK_ID = "1337"
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001
 
-export const CreatePactContext = React.createContext()
+export const PactViewsContext = React.createContext()
 
 export function Dapp() {
   const [selectedAddress, setSelectedAddress] = useState("")
@@ -28,6 +28,7 @@ export function Dapp() {
   const [networkError, setNetworkError] = useState("")
   const [provider, setProvider] = useState("")
   const [setInStone, setSetInStone] = useState("")
+  const [pacts, setPacts] = useState([])
 
   useEffect(() => {
     if (selectedAddress) {
@@ -42,6 +43,12 @@ export function Dapp() {
   useEffect(() => {
     _initialize(selectedAddress)
   }, [selectedAddress])
+
+  useEffect(() => {
+    (async () => {
+      setPacts(await _fetchPacts())
+    })()
+  }, [setInStone])
 
   if (window.ethereum === undefined) {
     return <NoWalletDetected />
@@ -58,7 +65,7 @@ export function Dapp() {
 
   return (
       <div>
-        <CreatePactContext.Provider value={_createPact}>
+        <PactViewsContext.Provider value={{ createPact: _createPact, _pacts: pacts }}>
           <nav>
             <Link to="/pacts">My Pacts</Link>{ " | " }
             <Link to="/pacts/new">Create a Pact</Link>
@@ -73,13 +80,12 @@ export function Dapp() {
               </Container>
             </Hero.Body>
           </Hero>
-        </CreatePactContext.Provider>
+        </PactViewsContext.Provider>
       </div>
     )
 
   async function _connectWallet() {
-    setSelectedAddress(await window.ethereum.request({ method: 'eth_requestAccounts' }))
-    console.log("selectedAddress:", await window.ethereum.request({ method: 'eth_requestAccounts' }))
+    await setSelectedAddress(await window.ethereum.request({ method: 'eth_requestAccounts' }))
 
     if (!_checkNetwork()) {
       return
@@ -135,5 +141,23 @@ export function Dapp() {
 
   async function _createPact(description, address) {
     setInStone.createPact(description, address)
+  }
+
+  async function _fetchPacts() {
+    if (setInStone && selectedAddress) {
+      const pactIds = await setInStone.getPactsByAddress(selectedAddress[0])
+
+      const pacts = []
+
+      for (let i = 0; i < pactIds.length; i++) {
+        const pact = await setInStone.getPact(i)
+        pacts.push(pact)
+      }
+
+      console.log("_fetchPacts pacts:", pacts[0])
+      return pacts
+    } 
+
+    return []
   }
 }

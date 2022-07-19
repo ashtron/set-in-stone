@@ -1,10 +1,13 @@
-import React from "react"
-import { Outlet } from "react-router-dom"
+import React, { useContext, useEffect, useState } from "react"
+import { PactViewsContext } from "./Dapp"
 
 export function Pacts() {
+    const pacts = useContext(PactViewsContext)._pacts
+    console.log(pacts)
+
     return (
         <div>
-            <h3>Have Some Pacts</h3>
+            <h3>{pacts.toString()}</h3>
         </div>
     )
 }
