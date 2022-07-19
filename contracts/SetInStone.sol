@@ -6,6 +6,7 @@ contract SetInStone {
     enum Status { Pending, Confirmed }
 
     struct Pact {
+        uint id;
         string description;
         address initiator;
         address taker;
@@ -27,7 +28,7 @@ contract SetInStone {
     }
 
     function createPact(string memory description, address taker) public {
-        pacts.push(Pact(description, msg.sender, taker, Status.Pending));
+        pacts.push(Pact(pacts.length + 1, description, msg.sender, taker, Status.Pending));
         pactIndex[msg.sender].push(pacts.length - 1);
     }
 

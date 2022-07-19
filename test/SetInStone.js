@@ -18,7 +18,7 @@ describe("SetInStone contract", function() {
         const { SetInStone, signer2, description } = await loadFixture(deployTokenFixture)
 
         await SetInStone.createPact(description, signer2.address)
-        const pactAddress = Array.from(await SetInStone.getPact(0))[2]
+        const pactAddress = Array.from(await SetInStone.getPact(0))[3]
         expect(pactAddress).to.equal(signer2.address)
     })
 
@@ -28,7 +28,7 @@ describe("SetInStone contract", function() {
         await SetInStone.createPact(description, signer2.address)
         await SetInStone.connect(signer2).confirmPact(0)
 
-        const status = Array.from(await SetInStone.getPact(0))[3]
+        const status = Array.from(await SetInStone.getPact(0))[4]
         // enum values are returned as integers.
         expect(status).to.equal(1)
     })
@@ -39,7 +39,7 @@ describe("SetInStone contract", function() {
         await SetInStone.createPact(description, signer2.address)
         await expect(SetInStone.confirmPact(0)).to.be.reverted
 
-        const status = Array.from(await SetInStone.getPact(0))[3]
+        const status = Array.from(await SetInStone.getPact(0))[4]
         expect(status).to.equal(0)
     })
 
@@ -51,6 +51,9 @@ describe("SetInStone contract", function() {
         await SetInStone.createPact(description, signer2.address)
 
         const pacts = await SetInStone.getPactsByAddress(signer1.address)
+
+        console.log(await SetInStone.getPact(pacts[0]))
+        console.log(await SetInStone.getPact(pacts[1]))
         
         expect(pacts[0]).to.equal(0)
         expect(pacts[1]).to.equal(2)
