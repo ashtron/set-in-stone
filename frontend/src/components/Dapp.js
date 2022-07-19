@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { ethers } from "ethers"
 
 import SetInStoneArtifact from "../contracts/SetInStone.json"
@@ -16,90 +16,99 @@ import { NewPactForm } from "./NewPactForm"
 import { Hero, Container, Box, Button, Field, Label, Form } from "react-bulma-components"
 import { Link, Outlet } from "react-router-dom"
 
-const HARDHAT_NETWORK_ID = '1337'
+const HARDHAT_NETWORK_ID = "1337"
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001
 
-const CreatePactContext = React.createContext()
+export const CreatePactContext = React.createContext()
 
 export function Dapp() {
   const [selectedAddress, setSelectedAddress] = useState("")
   const [balance, setBalance] = useState("")
   const [networkError, setNetworkError] = useState("")
+  const [provider, setProvider] = useState("")
+  const [setInStone, setSetInStone] = useState("")
+
+  useEffect(() => {
+    if (selectedAddress) {
+      setSetInStone(SetInStone => new ethers.Contract(
+        contractAddress.SetInStone,
+        SetInStoneArtifact.abi,
+        provider.getSigner(0)
+      ))
+    }
+  }, [provider])
+
+  useEffect(() => {
+    if (selectedAddress) {
+      _initialize(selectedAddress)
+    }
+  }, [selectedAddress])
 
   if (window.ethereum === undefined) {
     return <NoWalletDetected />
   }
 
-  if (!this.state.selectedAddress) {
+  if (!selectedAddress) {
     return (
       <ConnectWallet 
-        connectWallet={() => this._connectWallet()} 
-        networkError={this.state.networkError}
-        dismiss={() => this._dismissNetworkError()}
+        connectWallet={() => _connectWallet()} 
+        networkError={networkError}
+        // dismiss={() => _dismissNetworkError()}
       />
     )
   }
 
   return (
       <div>
-        <nav>
-          <Link to="/pacts">My Pacts</Link>{ " | " }
-          <Link to="/pacts/new">Create a Pact</Link>
-        </nav>
+        <CreatePactContext.Provider value={_createPact}>
+          <nav>
+            <Link to="/pacts">My Pacts</Link>{ " | " }
+            <Link to="/pacts/new">Create a Pact</Link>
+          </nav>
 
-        <Hero size="fullheight">
-          <Hero.Body textAlign="center">
-            <Container>
-              <Box>
-                <Outlet />
-              </Box>
-            </Container>
-          </Hero.Body>
-        </Hero>
+          <Hero size="fullheight">
+            <Hero.Body textAlign="center">
+              <Container>
+                <Box>
+                  <Outlet />
+                </Box>
+              </Container>
+            </Hero.Body>
+          </Hero>
+        </CreatePactContext.Provider>
       </div>
-
-      // <div>
-        // <nav>
-        //   <Link to="/pacts">Pacts</Link>
-        // </nav>
-      //   <Outlet />
-      // </div>
-
-      // <div>
-        // <NewPactForm createPact={ this._createPact }/>
-      // </div>
     )
-  // }
 
   // componentWillUnmount() {
   //   We poll the user's balance, so we have to stop doing that when Dapp
   //   gets unmounted
-  //   this._stopPollingData()
+  //   _stopPollingData()
   // }
 
   async function _connectWallet() {
-    const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+    setSelectedAddress(await window.ethereum.request({ method: 'eth_requestAccounts' }))
+    console.log("selectedAddress:", await window.ethereum.request({ method: 'eth_requestAccounts' }))
 
-    if (!this._checkNetwork()) {
+    if (!_checkNetwork()) {
       return
     }
 
-    this._initialize(selectedAddress)
+    // _initialize(selectedAddress)
 
     window.ethereum.on("accountsChanged", ([newAddress]) => {
-      // this._stopPollingData()
+      // _stopPollingData()
 
       if (newAddress === undefined) {
-        return this._resetState()
+        return _resetState()
       }
       
-      this._initialize(newAddress)
+      _initialize(newAddress)
     })
     
     window.ethereum.on("chainChanged", ([networkId]) => {
-      // this._stopPollingData()
-      this._resetState()
+      // _stopPollingData()
+      _resetState()
     })
   }
 
@@ -107,30 +116,31 @@ export function Dapp() {
     setSelectedAddress(userAddress)
 
     _initializeEthers()
-    // this._getTokenData()
-    // this._startPollingData()
+    // _getTokenData()
+    // _startPollingData()
   }
 
   async function _initializeEthers() {
-    this._provider = new ethers.providers.Web3Provider(window.ethereum)
+    await setProvider(new ethers.providers.Web3Provider(window.ethereum))
+    console.log("provider:", provider)
 
-    this._setInStone = new ethers.Contract(
-      contractAddress.SetInStone,
-      SetInStoneArtifact.abi,
-      this._provider.getSigner(0)
-    )
+    // setSetInStone(SetInStone => new ethers.Contract(
+    //   contractAddress.SetInStone,
+    //   SetInStoneArtifact.abi,
+    //   provider.getSigner(0)
+    // ))
   }
 
   function _startPollingData() {
-    this._pollDataInterval = setInterval(() => this._updateBalance(), 1000)
+    // _pollDataInterval = setInterval(() => _updateBalance(), 1000)
 
     // We run it once immediately so we don't have to wait for it
-    this._updateBalance()
+    // _updateBalance()
   }
 
  function _stopPollingData() {
-    clearInterval(this._pollDataInterval)
-    this._pollDataInterval = undefined
+    // clearInterval(_pollDataInterval)
+    // _pollDataInterval = undefined
   }
 
   function _getRpcErrorMessage(error) {
@@ -159,6 +169,6 @@ export function Dapp() {
   }
 
   async function _createPact(description, address) {
-    this._setInStone.createPact(description, address)
+    setInStone.createPact(description, address)
   }
 }
