@@ -13,6 +13,9 @@ import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage"
 import { NoTokensMessage } from "./NoTokensMessage"
 import { NewPactForm } from "./NewPactForm"
 
+import { Hero, Container, Box, Button, Field, Label, Form } from "react-bulma-components"
+import { Link, Outlet } from "react-router-dom"
+
 const HARDHAT_NETWORK_ID = '1337'
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001
@@ -47,8 +50,32 @@ export class Dapp extends React.Component {
 
     return (
       <div>
-        <NewPactForm createPact={ this._createPact }/>
+        <nav>
+          <Link to="/pacts">My Pacts</Link>{ " | " }
+          <Link to="/pacts/new">Create a Pact</Link>
+        </nav>
+
+        <Hero size="fullheight">
+          <Hero.Body textAlign="center">
+            <Container>
+              <Box>
+                <Outlet />
+              </Box>
+            </Container>
+          </Hero.Body>
+        </Hero>
       </div>
+
+      // <div>
+        // <nav>
+        //   <Link to="/pacts">Pacts</Link>
+        // </nav>
+      //   <Outlet />
+      // </div>
+
+      // <div>
+        // <NewPactForm createPact={ this._createPact }/>
+      // </div>
     )
   }
 

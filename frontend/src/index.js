@@ -1,16 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Dapp } from "./components/Dapp";
+import React from "react"
+import ReactDOM from "react-dom/client"
+import { Dapp } from "./components/Dapp"
+import { Pacts } from "./components/Pacts"
+import { NewPactForm } from "./components/NewPactForm"
 
-// We import bootstrap here, but you can remove if you want
-import "bootstrap/dist/css/bootstrap.css";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom"
 
-// This is the entry point of your application, but it just renders the Dapp
-// react component. All of the logic is contained in it.
-
-ReactDOM.render(
-  <React.StrictMode>
-    <Dapp />
-  </React.StrictMode>,
+const root = ReactDOM.createRoot(
   document.getElementById("root")
-);
+)
+root.render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Dapp />}>
+        <Route path="pacts" element={<Pacts />}></Route>
+        <Route path="pacts/new" element={<NewPactForm />}></Route>
+      </Route>
+    </Routes>
+  </BrowserRouter>
+)
