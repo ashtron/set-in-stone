@@ -80,12 +80,6 @@ export function Dapp() {
       </div>
     )
 
-  // componentWillUnmount() {
-  //   We poll the user's balance, so we have to stop doing that when Dapp
-  //   gets unmounted
-  //   _stopPollingData()
-  // }
-
   async function _connectWallet() {
     setSelectedAddress(await window.ethereum.request({ method: 'eth_requestAccounts' }))
     console.log("selectedAddress:", await window.ethereum.request({ method: 'eth_requestAccounts' }))
@@ -94,11 +88,7 @@ export function Dapp() {
       return
     }
 
-    // _initialize(selectedAddress)
-
     window.ethereum.on("accountsChanged", ([newAddress]) => {
-      // _stopPollingData()
-
       if (newAddress === undefined) {
         return _resetState()
       }
@@ -107,7 +97,6 @@ export function Dapp() {
     })
     
     window.ethereum.on("chainChanged", ([networkId]) => {
-      // _stopPollingData()
       _resetState()
     })
   }
@@ -116,31 +105,10 @@ export function Dapp() {
     setSelectedAddress(userAddress)
 
     _initializeEthers()
-    // _getTokenData()
-    // _startPollingData()
   }
 
   async function _initializeEthers() {
     await setProvider(new ethers.providers.Web3Provider(window.ethereum))
-    console.log("provider:", provider)
-
-    // setSetInStone(SetInStone => new ethers.Contract(
-    //   contractAddress.SetInStone,
-    //   SetInStoneArtifact.abi,
-    //   provider.getSigner(0)
-    // ))
-  }
-
-  function _startPollingData() {
-    // _pollDataInterval = setInterval(() => _updateBalance(), 1000)
-
-    // We run it once immediately so we don't have to wait for it
-    // _updateBalance()
-  }
-
- function _stopPollingData() {
-    // clearInterval(_pollDataInterval)
-    // _pollDataInterval = undefined
   }
 
   function _getRpcErrorMessage(error) {
