@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from "react"
 import { PactViewsContext } from "./Dapp"
+import { Pact } from "./Pact"
+
+import { Link } from "react-router-dom"
 
 export function Pacts() {
     const pacts = useContext(PactViewsContext)._pacts
-    const pactComponents = pacts.map(pact => {
 
+    const pactComponents = pacts.map(pact => {
         return (
-            <h3 key={pact.id}>{pact.description} I: {pact.initiator} T: {pact.taker} Confirmed? { pact.status === 1 ? "yes" : "no" }</h3>
+            <h3 key={pact.id}>{<Link to={`/pacts/${pact.id.toNumber() - 1}`}>{pact.description}</Link>}</h3>
         )
     })
 

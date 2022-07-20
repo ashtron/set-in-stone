@@ -146,7 +146,9 @@ export function Dapp() {
 
   async function _fetchPacts() {
     if (setInStone && selectedAddress) {
-      const pactIds = await setInStone.getPactsByAddress(selectedAddress[0])
+      const bigNumberPactIds = await setInStone.getPactsByAddress(selectedAddress[0])
+      const pactIds = bigNumberPactIds.map(id => id.toNumber())
+      console.log(pactIds)
 
       const pacts = []
 
@@ -154,7 +156,7 @@ export function Dapp() {
         const pact = await setInStone.getPact(i)
         pacts.push(pact)
       }
-
+      
       return pacts
     } 
 
