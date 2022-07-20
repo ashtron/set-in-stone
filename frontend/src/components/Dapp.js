@@ -93,7 +93,6 @@ export function Dapp() {
     }
 
     window.ethereum.on("accountsChanged", ([newAddress]) => {
-      console.log("W")
       if (newAddress === undefined) {
         return _resetState()
       }
@@ -153,7 +152,6 @@ export function Dapp() {
 
       for (let i = 0; i < pactIds.length; i++) {
         const pact = await setInStone.getPact(i)
-        console.log(pact)
         pacts.push(pact)
       }
 

@@ -50,12 +50,11 @@ describe("SetInStone contract", function() {
         await SetInStone.connect(signer2).createPact(description, signer1.address)
         await SetInStone.createPact(description, signer2.address)
 
-        const pacts = await SetInStone.getPactsByAddress(signer1.address)
+        const bigNumberPactIds = await SetInStone.getPactsByAddress(signer1.address)
+        const pactIds = bigNumberPactIds.map(pactId => { return pactId.toNumber() })
 
-        console.log(await SetInStone.getPact(pacts[0]))
-        console.log(await SetInStone.getPact(pacts[1]))
-        
-        expect(pacts[0]).to.equal(0)
-        expect(pacts[1]).to.equal(2)
+        expect(pactIds[0]).to.equal(0)
+        expect(pactIds[1]).to.equal(1)
+        expect(pactIds[2]).to.equal(2)
     })
 })

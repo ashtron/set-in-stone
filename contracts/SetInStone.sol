@@ -29,7 +29,9 @@ contract SetInStone {
 
     function createPact(string memory description, address taker) public {
         pacts.push(Pact(pacts.length + 1, description, msg.sender, taker, Status.Pending));
+        
         pactIndex[msg.sender].push(pacts.length - 1);
+        pactIndex[taker].push(pacts.length - 1);
     }
 
     function confirmPact(uint index) public onlyTaker(index, msg.sender) {
