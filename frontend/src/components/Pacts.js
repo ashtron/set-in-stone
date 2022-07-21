@@ -9,7 +9,11 @@ export function Pacts() {
 
     const pactComponents = pacts.map(pact => {
         return (
-            <h3 key={pact.id}>{<Link to={`/pacts/${pact.id.toNumber() - 1}`}>{pact.description}</Link>}</h3>
+            <h3 key={pact.id}>
+                {<Link to={`/pacts/${pact.id.toNumber() - 1}`}>
+                    {pact.description}
+                </Link>}
+            </h3>
         )
     })
 
