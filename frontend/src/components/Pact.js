@@ -9,7 +9,20 @@ export function Pact() {
     const { id } = useParams()
     const pact = useContext(PactViewsContext)._pacts[id]
     const confirmPact = useContext(PactViewsContext).confirmPact
-    console.log(pact)
+    const selectedAddress = useContext(PactViewsContext).selectedAddress[0].toLowerCase()
+
+    function getFooter() {
+        if (pact.status === 0) {
+            if (pact.taker.toLowerCase() === selectedAddress.toLowerCase()) {
+                return <Button onClick={() => { confirmPact(id) }}>Accept Pact</Button>
+            } else {
+                return "Pending"
+            }
+            
+        } else if (pact.status === 1) {
+            return "Confirmed"
+        }
+    }
 
     return (
         <Card>
@@ -35,7 +48,7 @@ export function Pact() {
             </Card.Footer>
             <Card.Footer>
                 <Card.Footer.Item>
-                    { pact.status === 0 ? <Button onClick={() => { confirmPact(id) }}>Accept Pact</Button> : "Confirmed" }
+                    { getFooter() }
                 </Card.Footer.Item>
             </Card.Footer>
         </Card>

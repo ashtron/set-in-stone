@@ -65,7 +65,12 @@ export function Dapp() {
 
   return (
       <div>
-        <PactViewsContext.Provider value={{ createPact: _createPact, _pacts: pacts, confirmPact: _confirmPact }}>
+        <PactViewsContext.Provider value={{
+          createPact: _createPact,
+          _pacts: pacts,
+          confirmPact: _confirmPact,
+          selectedAddress: selectedAddress
+        }}>
           <nav>
             <Link to="/">Home</Link>{ " | " }
             <Link to="/pacts">My Pacts</Link>{ " | " }
