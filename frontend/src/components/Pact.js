@@ -18,12 +18,24 @@ export function Pact() {
             </Card.Header>
             <Card.Content>
                 <Content>
-                    {pact.description}
+                    <p>
+                        {pact.description}
+                    </p>
                 </Content>
             </Card.Content>
             <Card.Footer>
                 <Card.Footer.Item>
-                    { pact.status === 0 ? <Button onClick={() => { confirmPact(id) }}>Accept Pact</Button> : "" }
+                    <p>Initiator: {pact.initiator}</p>
+                </Card.Footer.Item>
+            </Card.Footer>
+            <Card.Footer>
+                <Card.Footer.Item>
+                    <p>Taker: {pact.taker}</p>
+                </Card.Footer.Item>
+            </Card.Footer>
+            <Card.Footer>
+                <Card.Footer.Item>
+                    { pact.status === 0 ? <Button onClick={() => { confirmPact(id) }}>Accept Pact</Button> : "Confirmed" }
                 </Card.Footer.Item>
             </Card.Footer>
         </Card>
