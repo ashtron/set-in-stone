@@ -13,7 +13,7 @@ import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage"
 import { NoTokensMessage } from "./NoTokensMessage"
 import { NewPactForm } from "./NewPactForm"
 
-import { Hero, Container, Box, Button, Field, Label, Form } from "react-bulma-components"
+import { Hero, Container, Box, Button, Field, Label, Form, Navbar } from "react-bulma-components"
 import { Link, Outlet } from "react-router-dom"
 
 const HARDHAT_NETWORK_ID = "1337"
@@ -71,13 +71,12 @@ export function Dapp() {
           confirmPact: _confirmPact,
           selectedAddress: selectedAddress
         }}>
-          <nav>
-            <Link to="/">Home</Link>{ " | " }
-            <Link to="/pacts">My Pacts</Link>{ " | " }
-            <Link to="/pacts/new">Create a Pact</Link>
-          </nav>
-
           <Hero size="fullheight">
+            <Navbar>
+              <Link to="/">Home</Link>{ " | " }
+              <Link to="/pacts">My Pacts</Link>{ " | " }
+              <Link to="/pacts/new">Create a Pact</Link>
+            </Navbar>
             <Hero.Body textAlign="center">
               <Container>
                 <Box>
