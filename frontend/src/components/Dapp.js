@@ -42,7 +42,6 @@ export function Dapp() {
 
   useEffect(() => {
     if (setInStone !== "") {
-      console.log(provider);
       (async () => {
         setSelectedAddress(await window.ethereum.request({ method: 'eth_requestAccounts' }))
       })()
@@ -51,17 +50,10 @@ export function Dapp() {
 
   useEffect(() => {
     if (selectedAddress !== "") {
-      console.log(selectedAddress);
       (async () => {
         setPacts(await _fetchPacts())
       })()
     }
-  }, [selectedAddress])
-
-  useEffect(() => {
-    console.log("Provider:", provider)
-    console.log("setInStone:", setInStone)
-    console.log("selectedAddress:", selectedAddress)
   }, [selectedAddress])
 
   if (window.ethereum === undefined) {
@@ -107,32 +99,21 @@ export function Dapp() {
     if (typeof window.ethereum !== "undefined") {
       const injectedProvider = new ethers.providers.Web3Provider(window.ethereum)
       await setProvider(injectedProvider)
-      // await setSelectedAddress(await window.ethereum.request({ method: "eth_requestAccounts" }))
-      // console.log("Provider:", provider)
-
-      // await setSetInStone(new ethers.Contract(
-      //   contractAddress.SetInStone,
-      //   SetInStoneArtifact.abi,
-      //   provider.getSigner(0)
-      // ))
-
-      // await setPacts(await _fetchPacts())
-      // console.log(pacts)
     }
     
     if (!_checkNetwork()) {
       return
     }
 
-    window.ethereum.on("accountsChanged", ([newAddress]) => {
-      // if (newAddress === undefined) {
-      //   return _resetState()
-      // }
+    // window.ethereum.on("accountsChanged", ([newAddress]) => {
+    //   if (newAddress === undefined) {
+    //     return _resetState()
+    //   }
       
-      // _initialize(newAddress)
+    //   _initialize(newAddress)
 
-      console.log("account changed!")
-    })
+    //   console.log("account changed!")
+    // })
     
   //   window.ethereum.on("chainChanged", ([networkId]) => {
   //     _resetState()
@@ -154,7 +135,6 @@ export function Dapp() {
   }
 
   function _checkNetwork() {
-    console.log("window.ethereum.networkVersion:", window.ethereum.networkVersion)
     if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
       return true
     }
@@ -172,7 +152,6 @@ export function Dapp() {
     if (setInStone && selectedAddress) {
       const bigNumberPactIds = await setInStone.getPactsByAddress(selectedAddress[0])
       const pactIds = bigNumberPactIds.map(id => id.toNumber())
-      console.log("pactIds:", pactIds)
 
       const pacts = []
 
