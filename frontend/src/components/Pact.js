@@ -7,7 +7,13 @@ import { Card, Content, Button } from "react-bulma-components"
 
 export function Pact() {
     const { id } = useParams()
-    const pact = useContext(PactViewsContext)._pacts[id]
+    const pacts = useContext(PactViewsContext)._pacts
+    console.log("id:", pacts[0].id)
+    const pact = pacts.find(pact => {
+        console.log(typeof(id))
+        return pact.id.toNumber() === parseInt(id) + 1
+    })
+    console.log(pact)
     const confirmPact = useContext(PactViewsContext).confirmPact
     const selectedAddress = useContext(PactViewsContext).selectedAddress[0].toLowerCase()
 

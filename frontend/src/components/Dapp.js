@@ -31,7 +31,7 @@ export function Dapp() {
   const [pacts, setPacts] = useState([])
 
   useEffect(() => {
-    if (selectedAddress) {
+    if (provider !== "") {
       setSetInStone(SetInStone => new ethers.Contract(
         contractAddress.SetInStone,
         SetInStoneArtifact.abi,
@@ -41,20 +41,34 @@ export function Dapp() {
   }, [provider])
 
   useEffect(() => {
-    _initialize(selectedAddress)
+    if (setInStone !== "") {
+      console.log(provider);
+      (async () => {
+        setSelectedAddress(await window.ethereum.request({ method: 'eth_requestAccounts' }))
+      })()
+    }
+  }, [setInStone])
+
+  useEffect(() => {
+    if (selectedAddress !== "") {
+      console.log(selectedAddress);
+      (async () => {
+        setPacts(await _fetchPacts())
+      })()
+    }
   }, [selectedAddress])
 
   useEffect(() => {
-    (async () => {
-      setPacts(await _fetchPacts())
-    })()
-  }, [setInStone])
+    console.log("Provider:", provider)
+    console.log("setInStone:", setInStone)
+    console.log("selectedAddress:", selectedAddress)
+  }, [selectedAddress])
 
   if (window.ethereum === undefined) {
     return <NoWalletDetected />
   }
 
-  if (!selectedAddress) {
+  if (!provider) {
     return (
       <ConnectWallet 
         connectWallet={() => _connectWallet()} 
@@ -90,33 +104,39 @@ export function Dapp() {
     )
 
   async function _connectWallet() {
-    await setSelectedAddress(await window.ethereum.request({ method: 'eth_requestAccounts' }))
+    if (typeof window.ethereum !== "undefined") {
+      const injectedProvider = new ethers.providers.Web3Provider(window.ethereum)
+      await setProvider(injectedProvider)
+      // await setSelectedAddress(await window.ethereum.request({ method: "eth_requestAccounts" }))
+      // console.log("Provider:", provider)
 
+      // await setSetInStone(new ethers.Contract(
+      //   contractAddress.SetInStone,
+      //   SetInStoneArtifact.abi,
+      //   provider.getSigner(0)
+      // ))
+
+      // await setPacts(await _fetchPacts())
+      // console.log(pacts)
+    }
+    
     if (!_checkNetwork()) {
       return
     }
 
     window.ethereum.on("accountsChanged", ([newAddress]) => {
-      if (newAddress === undefined) {
-        return _resetState()
-      }
+      // if (newAddress === undefined) {
+      //   return _resetState()
+      // }
       
-      _initialize(newAddress)
+      // _initialize(newAddress)
+
+      console.log("account changed!")
     })
     
-    window.ethereum.on("chainChanged", ([networkId]) => {
-      _resetState()
-    })
-  }
-
-  function _initialize(userAddress) {
-    setSelectedAddress(userAddress)
-
-    _initializeEthers()
-  }
-
-  async function _initializeEthers() {
-    await setProvider(new ethers.providers.Web3Provider(window.ethereum))
+  //   window.ethereum.on("chainChanged", ([networkId]) => {
+  //     _resetState()
+  //   })
   }
 
   function _getRpcErrorMessage(error) {
@@ -139,7 +159,7 @@ export function Dapp() {
       return true
     }
 
-    setNetworkError('Please connect Metamask to Localhost:8545')
+    setNetworkError("Please connect Metamask to Localhost:8545")
 
     return false
   }
@@ -152,12 +172,12 @@ export function Dapp() {
     if (setInStone && selectedAddress) {
       const bigNumberPactIds = await setInStone.getPactsByAddress(selectedAddress[0])
       const pactIds = bigNumberPactIds.map(id => id.toNumber())
-      console.log(pactIds)
+      console.log("pactIds:", pactIds)
 
       const pacts = []
 
       for (let i = 0; i < pactIds.length; i++) {
-        const pact = await setInStone.getPact(i)
+        const pact = await setInStone.getPact(pactIds[i])
         pacts.push(pact)
       }
       

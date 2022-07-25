@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 
 export function Pacts() {
     const pacts = useContext(PactViewsContext)._pacts
+    console.log(pacts)
 
     const pactComponents = pacts.map(pact => {
         return (
