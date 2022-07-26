@@ -46,11 +46,15 @@ export function Dapp() {
     if (selectedAddress !== "") {
       (async () => {
         setInStone.on("PactCreated", async (initiator, taker, description) => {
-          setPacts(await _fetchPacts())
+          if ((initiator.toLowerCase() === selectedAddress[0]) || (taker.toLowerCase() === selectedAddress[0])) {
+            setPacts(await _fetchPacts())
+          }
         })
 
         setInStone.on("PactConfirmed", async (initiator, taker, id) => {
-          setPacts(await _fetchPacts())
+          if ((initiator.toLowerCase() === selectedAddress[0]) || (taker.toLowerCase() === selectedAddress[0])) {
+            setPacts(await _fetchPacts())
+          }
         })
         
         setPacts(await _fetchPacts())

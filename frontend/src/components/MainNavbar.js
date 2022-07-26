@@ -34,7 +34,7 @@ export function MainNavbar() {
 
                 <Navbar.Container align="right">
                     <Navbar.Item>
-                        Connected with: { selectedAddress }
+                        Connected: { selectedAddress }
                     </Navbar.Item>
                 </Navbar.Container>
             </Navbar.Menu>
