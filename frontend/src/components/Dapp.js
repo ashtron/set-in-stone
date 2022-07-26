@@ -27,6 +27,7 @@ export function Dapp() {
 
   useEffect(() => {
     if (provider !== "") {
+      console.log(provider)
       setSetInStone(SetInStone => new ethers.Contract(
         contractAddress.SetInStone,
         SetInStoneArtifact.abi,
@@ -46,6 +47,10 @@ export function Dapp() {
   useEffect(() => {
     if (selectedAddress !== "") {
       (async () => {
+        setInStone.on("PactCreated", async (initiator, taker, description) => {
+          setPacts(await _fetchPacts())
+        })
+        
         setPacts(await _fetchPacts())
       })()
     }

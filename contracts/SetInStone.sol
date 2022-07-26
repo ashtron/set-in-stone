@@ -19,7 +19,7 @@ contract SetInStone {
 
     error WrongAddress();
 
-    event PactCreated(address indexed _initiator, address indexed _taker, string description);
+    event PactCreated(address indexed _initiator, address indexed _taker, string _description);
 
     modifier onlyTaker(uint index, address addr) {
         if (pacts[index].taker != addr) revert WrongAddress();
