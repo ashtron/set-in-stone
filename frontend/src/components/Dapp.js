@@ -6,14 +6,8 @@ import contractAddress from "../contracts/contract-address.json"
 
 import { NoWalletDetected } from "./NoWalletDetected"
 import { ConnectWallet } from "./ConnectWallet"
-import { Loading } from "./Loading"
-import { Transfer } from "./Transfer"
-import { TransactionErrorMessage } from "./TransactionErrorMessage"
-import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage"
-import { NoTokensMessage } from "./NoTokensMessage"
-import { NewPactForm } from "./NewPactForm"
 
-import { Hero, Container, Box, Button, Field, Label, Form, Navbar } from "react-bulma-components"
+import { Hero, Container, Box, Navbar } from "react-bulma-components"
 import { Link, Outlet } from "react-router-dom"
 
 const HARDHAT_NETWORK_ID = "1337"
@@ -105,15 +99,9 @@ export function Dapp() {
       return
     }
 
-    // window.ethereum.on("accountsChanged", ([newAddress]) => {
-    //   if (newAddress === undefined) {
-    //     return _resetState()
-    //   }
-      
-    //   _initialize(newAddress)
-
-    //   console.log("account changed!")
-    // })
+    window.ethereum.on("accountsChanged", (newAddress) => {
+      setSelectedAddress(newAddress)
+    })
     
   //   window.ethereum.on("chainChanged", ([networkId]) => {
   //     _resetState()
