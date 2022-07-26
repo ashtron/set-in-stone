@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 export function Pacts() {
     const pacts = useContext(PactViewsContext)._pacts
-
+    
     const pactComponents = pacts.map(pact => {
         return (
             <h3 key={pact.id}>

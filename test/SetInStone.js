@@ -50,7 +50,7 @@ describe("SetInStone contract", function() {
         await SetInStone.connect(signer2).createPact(description, signer1.address)
         await SetInStone.createPact(description, signer2.address)
 
-        const bigNumberPactIds = await SetInStone.getPactsByAddress(signer1.address)
+        const bigNumberPactIds = await SetInStone.getPactIdsByAddress(signer1.address)
         const pactIds = bigNumberPactIds.map(pactId => { return pactId.toNumber() })
 
         expect(pactIds[0]).to.equal(0)
@@ -68,5 +68,13 @@ describe("SetInStone contract", function() {
         await expect(await SetInStone.connect(signer2).confirmPact(0))
             .to.emit(SetInStone, "PactConfirmed")
             .withArgs(signer1.address, signer2.address, 0)
+    })
+    
+    it("Should only add one pact when initiator and taker are the same", async function() {
+        const { SetInStone, signer1, signer2, description } = await loadFixture(deployTokenFixture)
+
+        await SetInStone.createPact(description, signer1.address)
+
+        await expect((await SetInStone.getPactIdsByAddress(signer1.address)).length).to.equal(1)
     })
 })

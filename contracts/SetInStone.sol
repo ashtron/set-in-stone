@@ -33,8 +33,12 @@ contract SetInStone {
     function createPact(string memory description, address taker) public {
         pacts.push(Pact(pacts.length + 1, description, msg.sender, taker, Status.Pending));
         
-        pactIndex[msg.sender].push(pacts.length - 1);
-        pactIndex[taker].push(pacts.length - 1);
+        if (!(taker == msg.sender)) {
+            pactIndex[msg.sender].push(pacts.length - 1);
+            pactIndex[taker].push(pacts.length - 1);
+        } else {
+            pactIndex[msg.sender].push(pacts.length - 1);
+        }
 
         emit PactCreated(msg.sender, taker, description);
     }
@@ -49,7 +53,7 @@ contract SetInStone {
         return pacts[index];
     }
 
-    function getPactsByAddress(address addr) public view returns (uint[] memory) {
+    function getPactIdsByAddress(address addr) public view returns (uint[] memory) {
         return pactIndex[addr];
     }
 }

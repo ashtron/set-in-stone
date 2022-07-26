@@ -7,8 +7,8 @@ import contractAddress from "../contracts/contract-address.json"
 import { NoWalletDetected } from "./NoWalletDetected"
 import { ConnectWallet } from "./ConnectWallet"
 
-import { Hero, Container, Box, Navbar } from "react-bulma-components"
-import { Link, Outlet } from "react-router-dom"
+import { Hero, Container, Box } from "react-bulma-components"
+import { Outlet } from "react-router-dom"
 import { MainNavbar } from "./MainNavbar"
 
 const HARDHAT_NETWORK_ID = "1337"
@@ -19,7 +19,6 @@ export const PactViewsContext = React.createContext()
 
 export function Dapp() {
   const [selectedAddress, setSelectedAddress] = useState("")
-  const [balance, setBalance] = useState("")
   const [networkError, setNetworkError] = useState("")
   const [provider, setProvider] = useState("")
   const [setInStone, setSetInStone] = useState("")
@@ -27,7 +26,6 @@ export function Dapp() {
 
   useEffect(() => {
     if (provider !== "") {
-      console.log(provider)
       setSetInStone(SetInStone => new ethers.Contract(
         contractAddress.SetInStone,
         SetInStoneArtifact.abi,
@@ -118,12 +116,6 @@ export function Dapp() {
     return error.message
   }
 
-  function _resetState() {
-    setSelectedAddress("")
-    setBalance("")
-    setNetworkError("")
-  }
-
   function _checkNetwork() {
     if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
       return true
@@ -140,7 +132,7 @@ export function Dapp() {
 
   async function _fetchPacts() {
     if (setInStone && selectedAddress) {
-      const bigNumberPactIds = await setInStone.getPactsByAddress(selectedAddress[0])
+      const bigNumberPactIds = await setInStone.getPactIdsByAddress(selectedAddress[0])
       const pactIds = bigNumberPactIds.map(id => id.toNumber())
 
       const pacts = []
