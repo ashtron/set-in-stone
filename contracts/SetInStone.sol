@@ -19,6 +19,8 @@ contract SetInStone {
 
     error WrongAddress();
 
+    event PactCreated(address indexed _initiator, address indexed _taker, string description);
+
     modifier onlyTaker(uint index, address addr) {
         if (pacts[index].taker != addr) revert WrongAddress();
         _;
@@ -32,6 +34,8 @@ contract SetInStone {
         
         pactIndex[msg.sender].push(pacts.length - 1);
         pactIndex[taker].push(pacts.length - 1);
+
+        emit PactCreated(msg.sender, taker, description);
     }
 
     function confirmPact(uint index) public onlyTaker(index, msg.sender) {
