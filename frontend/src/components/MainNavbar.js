@@ -19,15 +19,15 @@ export function MainNavbar() {
 
             <Navbar.Menu>
                 <Navbar.Container>
-                    <Navbar.Item>
+                    <Navbar.Item renderAs="div">
                         <Link to="/">Home</Link>
                     </Navbar.Item>
 
-                    <Navbar.Item>
+                    <Navbar.Item renderAs="div">
                         <Link to="/pacts">My Pacts</Link>
                     </Navbar.Item>
 
-                    <Navbar.Item>
+                    <Navbar.Item renderAs="div">
                         <Link to="/pacts/new">Create a Pact</Link>
                     </Navbar.Item>
                 </Navbar.Container>
