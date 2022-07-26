@@ -9,6 +9,7 @@ import { ConnectWallet } from "./ConnectWallet"
 
 import { Hero, Container, Box, Navbar } from "react-bulma-components"
 import { Link, Outlet } from "react-router-dom"
+import { MainNavbar } from "./MainNavbar"
 
 const HARDHAT_NETWORK_ID = "1337"
 
@@ -72,11 +73,7 @@ export function Dapp() {
           selectedAddress: selectedAddress
         }}>
           <Hero size="fullheight">
-            <Navbar>
-              <Link to="/">Home</Link>{ " | " }
-              <Link to="/pacts">My Pacts</Link>{ " | " }
-              <Link to="/pacts/new">Create a Pact</Link>
-            </Navbar>
+            <MainNavbar />
             <Hero.Body textAlign="center">
               <Container>
                 <Box>
@@ -102,10 +99,6 @@ export function Dapp() {
     window.ethereum.on("accountsChanged", (newAddress) => {
       setSelectedAddress(newAddress)
     })
-    
-  //   window.ethereum.on("chainChanged", ([networkId]) => {
-  //     _resetState()
-  //   })
   }
 
   function _getRpcErrorMessage(error) {
