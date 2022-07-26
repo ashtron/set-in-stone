@@ -58,11 +58,15 @@ describe("SetInStone contract", function() {
         expect(pactIds[2]).to.equal(2)
     })
 
-    it("Should emit PactCreated events", async function() {
+    it("Should emit events", async function() {
         const { SetInStone, signer1, signer2, description } = await loadFixture(deployTokenFixture)
 
         await expect(SetInStone.createPact(description, signer2.address))
             .to.emit(SetInStone, "PactCreated")
             .withArgs(signer1.address, signer2.address, description)
+
+        await expect(await SetInStone.connect(signer2).confirmPact(0))
+            .to.emit(SetInStone, "PactConfirmed")
+            .withArgs(signer1.address, signer2.address, 0)
     })
 })

@@ -20,6 +20,7 @@ contract SetInStone {
     error WrongAddress();
 
     event PactCreated(address indexed _initiator, address indexed _taker, string _description);
+    event PactConfirmed(address indexed _initiator, address indexed _taker, uint id);
 
     modifier onlyTaker(uint index, address addr) {
         if (pacts[index].taker != addr) revert WrongAddress();
@@ -40,6 +41,8 @@ contract SetInStone {
 
     function confirmPact(uint index) public onlyTaker(index, msg.sender) {
         pacts[index].status = Status.Confirmed;
+
+        emit PactConfirmed(pacts[index].initiator, msg.sender, index);
     }
 
     function getPact(uint index) public view returns (Pact memory) {

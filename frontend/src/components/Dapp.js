@@ -50,6 +50,10 @@ export function Dapp() {
         setInStone.on("PactCreated", async (initiator, taker, description) => {
           setPacts(await _fetchPacts())
         })
+
+        setInStone.on("PactConfirmed", async (initiator, taker, id) => {
+          setPacts(await _fetchPacts())
+        })
         
         setPacts(await _fetchPacts())
       })()
