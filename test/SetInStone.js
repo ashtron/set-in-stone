@@ -33,6 +33,16 @@ describe("SetInStone contract", function() {
         expect(status).to.equal(1)
     })
 
+    it("Should allow pacts to be rejected", async function() {
+        const { SetInStone, signer2, description } = await loadFixture(deployTokenFixture)
+        
+        await SetInStone.createPact(description, signer2.address)
+        await SetInStone.connect(signer2).rejectPact(0)
+
+        const status = Array.from(await SetInStone.getPact(0))[4]
+        expect(status).to.equal(2)
+    })
+
     it("Should only allow the taker to confirm a pact", async function() {
         const { SetInStone, signer2, description } = await loadFixture(deployTokenFixture)
         
@@ -41,6 +51,18 @@ describe("SetInStone contract", function() {
 
         const status = Array.from(await SetInStone.getPact(0))[4]
         expect(status).to.equal(0)
+    })
+
+    it("Should only allow pending pacts to be confirmed or rejected", async function() {
+        const { SetInStone, signer2, description } = await loadFixture(deployTokenFixture)
+        
+        await SetInStone.createPact(description, signer2.address)
+        await SetInStone.connect(signer2).confirmPact(0)
+        await SetInStone.createPact(description, signer2.address)
+        await SetInStone.connect(signer2).rejectPact(1)
+
+        await expect(SetInStone.connect(signer2).confirmPact(0)).to.be.reverted
+        await expect(SetInStone.connect(signer2).rejectPact(1)).to.be.reverted
     })
 
     it("Should retrieve pacts by address", async function() {
@@ -68,6 +90,12 @@ describe("SetInStone contract", function() {
         await expect(await SetInStone.connect(signer2).confirmPact(0))
             .to.emit(SetInStone, "PactConfirmed")
             .withArgs(signer1.address, signer2.address, 0)
+
+        await SetInStone.createPact(description, signer2.address)
+
+        await expect(await SetInStone.connect(signer2).rejectPact(1))
+            .to.emit(SetInStone, "PactRejected")
+            .withArgs(signer1.address, signer2.address, 1)
     })
     
     it("Should only add one pact when initiator and taker are the same", async function() {
