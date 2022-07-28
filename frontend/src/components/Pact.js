@@ -14,18 +14,25 @@ export function Pact() {
     })
 
     const confirmPact = useContext(PactViewsContext).confirmPact
+    const rejectPact = useContext(PactViewsContext).rejectPact
     const selectedAddress = useContext(PactViewsContext).selectedAddress[0].toLowerCase()
 
     function getFooter() {
         if (pact.status === 0) {
             if (pact.taker.toLowerCase() === selectedAddress.toLowerCase()) {
-                return <Button onClick={() => { confirmPact(id) }}>Accept Pact</Button>
+                return (
+                    <div>
+                        <Button onClick={() => { confirmPact(id) }}>Accept Pact</Button>
+                        <Button onClick={() => { rejectPact(id) }}>Reject Pact</Button>
+                    </div>
+                )
             } else {
                 return "Pending"
-            }
-            
+            }  
         } else if (pact.status === 1) {
             return "Confirmed"
+        } else if (pact.status === 2) {
+            return "Rejected"
         }
     }
 

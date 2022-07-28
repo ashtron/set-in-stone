@@ -56,6 +56,12 @@ export function Dapp() {
             setPacts(await _fetchPacts())
           }
         })
+
+        setInStone.on("PactRejected", async (initiator, taker, id) => {
+          if ((initiator.toLowerCase() === selectedAddress[0]) || (taker.toLowerCase() === selectedAddress[0])) {
+            setPacts(await _fetchPacts())
+          }
+        })
         
         setPacts(await _fetchPacts())
       })()
@@ -81,7 +87,8 @@ export function Dapp() {
           createPact: _createPact,
           _pacts: pacts,
           confirmPact: _confirmPact,
-          selectedAddress: selectedAddress
+          selectedAddress: selectedAddress,
+          rejectPact: _rejectPact
         }}>
           <Hero size="fullheight">
             <MainNavbar />
@@ -154,5 +161,9 @@ export function Dapp() {
 
   async function _confirmPact(id) {
     setInStone.confirmPact(id)
+  }
+
+  async function _rejectPact(id) {
+    setInStone.rejectPact(id)
   }
 }
