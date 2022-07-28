@@ -45,23 +45,7 @@ export function Dapp() {
   useEffect(() => {
     if (selectedAddress !== "") {
       (async () => {
-        setInStone.on("PactCreated", async (initiator, taker, description) => {
-          if ((initiator.toLowerCase() === selectedAddress[0]) || (taker.toLowerCase() === selectedAddress[0])) {
-            setPacts(await _fetchPacts())
-          }
-        })
-
-        setInStone.on("PactConfirmed", async (initiator, taker, id) => {
-          if ((initiator.toLowerCase() === selectedAddress[0]) || (taker.toLowerCase() === selectedAddress[0])) {
-            setPacts(await _fetchPacts())
-          }
-        })
-
-        setInStone.on("PactRejected", async (initiator, taker, id) => {
-          if ((initiator.toLowerCase() === selectedAddress[0]) || (taker.toLowerCase() === selectedAddress[0])) {
-            setPacts(await _fetchPacts())
-          }
-        })
+        _setEventListeners()
         
         setPacts(await _fetchPacts())
       })()
@@ -139,6 +123,16 @@ export function Dapp() {
 
   async function _createPact(description, address) {
     setInStone.createPact(description, address)
+  }
+
+  async function _setEventListeners() {
+    ["PactCreated", "PactConfirmed", "PactRejected"].forEach(event => {
+      setInStone.on(event, async (initiator, taker, description) => {
+        if ((initiator.toLowerCase() === selectedAddress[0]) || (taker.toLowerCase() === selectedAddress[0])) {
+          setPacts(await _fetchPacts())
+        }
+      })
+    })
   }
 
   async function _fetchPacts() {
