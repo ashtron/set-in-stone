@@ -42,7 +42,7 @@ export function NewPactForm() {
                 </Form.Control>
             </Form.Field>
 
-            <Button color="grey-light" onClick={() => {
+            <Button color="primary" onClick={() => {
                 createPact(description, address)
             }}>Submit</Button>
         </div>

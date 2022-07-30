@@ -6,20 +6,20 @@ import contractAddress from "../contracts/contract-address.json"
 
 import { NoWalletDetected } from "./NoWalletDetected"
 import { ConnectWallet } from "./ConnectWallet"
+import { MainNavbar } from "./MainNavbar"
 
 import { Hero, Container, Box } from "react-bulma-components"
 import { Outlet } from "react-router-dom"
-import { MainNavbar } from "./MainNavbar"
+
+import "../css/mystyles.css"
 
 const HARDHAT_NETWORK_ID = "1337"
-
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001
 
 export const PactViewsContext = React.createContext()
 
 export function Dapp() {
   const [selectedAddress, setSelectedAddress] = useState("")
-  const [networkError, setNetworkError] = useState("")
   const [provider, setProvider] = useState("")
   const [setInStone, setSetInStone] = useState("")
   const [pacts, setPacts] = useState([])
@@ -59,8 +59,7 @@ export function Dapp() {
   if (!provider) {
     return (
       <ConnectWallet 
-        connectWallet={() => _connectWallet()} 
-        networkError={networkError}
+        connectWallet={() => _connectWallet()}
       />
     )
   }
@@ -115,8 +114,6 @@ export function Dapp() {
     if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
       return true
     }
-
-    setNetworkError("Please connect Metamask to Localhost:8545")
 
     return false
   }

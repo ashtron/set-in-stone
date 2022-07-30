@@ -11,12 +11,15 @@
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
+    "node-sass": "^7.0.1",
     "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "css-build": "node-sass --omit-source-map-url src/sass/mystyles.scss src/css/mystyles.css",
+    "css-watch": "npm run css-build -- --watch"
   },
   "eslintConfig": {
     "extends": "react-app"
