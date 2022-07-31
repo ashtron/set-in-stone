@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import styled from "styled-components"
 
 import "bulma/css/bulma.min.css"
 import { Navbar, Card, Content, Button } from "react-bulma-components"
@@ -8,6 +9,10 @@ import { PactViewsContext } from "./Dapp"
 
 export function MainNavbar() {
     const selectedAddress = useContext(PactViewsContext).selectedAddress
+
+    const StyledLink = styled(Link)`
+        color: #F8F0E3;
+    `
 
     return (
         <Navbar>
@@ -20,15 +25,15 @@ export function MainNavbar() {
             <Navbar.Menu>
                 <Navbar.Container>
                     <Navbar.Item renderAs="div">
-                        <Link to="/">Home</Link>
+                        <StyledLink to="/">Home</StyledLink>
                     </Navbar.Item>
 
                     <Navbar.Item renderAs="div">
-                        <Link to="/pacts">My Pacts</Link>
+                        <StyledLink to="/pacts">My Pacts</StyledLink>
                     </Navbar.Item>
 
                     <Navbar.Item renderAs="div">
-                        <Link to="/pacts/new">Create a Pact</Link>
+                        <StyledLink to="/pacts/new">Create a Pact</StyledLink>
                     </Navbar.Item>
                 </Navbar.Container>
 

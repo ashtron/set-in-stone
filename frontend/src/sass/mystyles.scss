@@ -1,5 +1,10 @@
 @charset "utf-8";
 
-// $primary: pink;
+$off-black: #313639;
+$off-white: #F8F0E3;
+
+$body-background-color: $off-black;
+$box-background-color: $off-white;
+$navbar-item-color: $off-white;
 
 @import "../../node_modules/bulma/bulma.sass";

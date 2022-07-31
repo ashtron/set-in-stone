@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
+import styled from "styled-components"
+
 import { PactViewsContext } from "./Dapp"
 import { Pact } from "./Pact"
 
@@ -7,6 +9,10 @@ import { Button } from "react-bulma-components"
 
 export function Pacts() {
     const pacts = useContext(PactViewsContext)._pacts
+
+    const StyledLink = styled(Link)`
+        color: #313639;
+    `
 
     const noPactsMessage =
         <div>
@@ -20,9 +26,9 @@ export function Pacts() {
     const pactComponents = pacts.map(pact => {
         return (
             <h3 key={pact.id}>
-                {<Link to={`/pacts/${pact.id.toNumber() - 1}`}>
+                {<StyledLink to={`/pacts/${pact.id.toNumber() - 1}`}>
                     {pact.description}
-                </Link>}
+                </StyledLink>}
             </h3>
         )
     })
