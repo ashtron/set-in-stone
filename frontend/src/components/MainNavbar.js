@@ -7,12 +7,16 @@ import { Link } from "react-router-dom"
 
 import { PactViewsContext } from "./Dapp"
 
+const StyledLink = styled(Link)`
+    color: #F8F0E3;
+    &:hover {
+        color: #f8f8ff;
+        text-decoration: underline;
+    }
+`
+
 export function MainNavbar() {
     const selectedAddress = useContext(PactViewsContext).selectedAddress
-
-    const StyledLink = styled(Link)`
-        color: #F8F0E3;
-    `
 
     return (
         <Navbar>
@@ -38,8 +42,10 @@ export function MainNavbar() {
                 </Navbar.Container>
 
                 <Navbar.Container align="right">
-                    <Navbar.Item>
-                        Connected: { selectedAddress }
+                    <Navbar.Item renderAs="div">
+                        <div>
+                            Connected: { selectedAddress }
+                        </div>
                     </Navbar.Item>
                 </Navbar.Container>
             </Navbar.Menu>

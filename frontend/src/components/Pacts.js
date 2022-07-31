@@ -7,12 +7,17 @@ import { Pact } from "./Pact"
 import { Link } from "react-router-dom"
 import { Button } from "react-bulma-components"
 
+const StyledLink = styled(Link)`
+    color: #313639;
+    
+    &:hover {
+        color: #313639;
+        text-decoration: underline;
+    }
+`
+
 export function Pacts() {
     const pacts = useContext(PactViewsContext)._pacts
-
-    const StyledLink = styled(Link)`
-        color: #313639;
-    `
 
     const noPactsMessage =
         <div>

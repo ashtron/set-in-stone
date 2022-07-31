@@ -76,7 +76,10 @@ export function Dapp() {
           <Hero size="fullheight">
             <MainNavbar />
             <Hero.Body textAlign="center">
-              <Container>
+              <Container
+                breakpoint="desktop"
+                max="true"
+              >
                 <Box>
                   <Outlet />
                 </Box>

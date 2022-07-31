@@ -391,7 +391,7 @@ table th {
 
 /* Bulma Elements */
 .box {
-  background-color: #F8F0E3;
+  background-color: #f8f8ff;
   border-radius: 6px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   color: #4a4a4a;
@@ -4046,7 +4046,7 @@ body.has-navbar-fixed-bottom {
   overflow-y: hidden; }
 
 .navbar-burger {
-  color: #F8F0E3;
+  color: #f8f8ff;
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
@@ -4089,7 +4089,7 @@ body.has-navbar-fixed-bottom {
 
 .navbar-item,
 .navbar-link {
-  color: #F8F0E3;
+  color: #f8f8ff;
   display: block;
   line-height: 1.5;
   padding: 0.5rem 0.75rem;
