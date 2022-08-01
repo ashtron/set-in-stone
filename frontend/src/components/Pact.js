@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import "bulma/css/bulma.min.css"
 
 import { PactViewsContext } from "./Dapp"
@@ -21,6 +21,10 @@ const RejectButton = styled(Button)`
     border: 0;
 
     &:hover { color: #f8f8ff }
+`
+
+const StyledLink = styled(Link)`
+    color: #313639;
 `
 
 export function Pact() {
@@ -57,7 +61,8 @@ export function Pact() {
     return (
         <Card>
             <Card.Header>
-                <Card.Header.Title>{id}</Card.Header.Title>
+                <Card.Header.Title><StyledLink to="/pacts">Back</StyledLink></Card.Header.Title>
+                <Card.Header.Icon style={{ fontWeight: "bold", cursor: "auto" }}>{id}</Card.Header.Icon>
             </Card.Header>
             <Card.Content>
                 <Content>
