@@ -24,7 +24,7 @@ export function Pacts() {
         return (
             <h3 key={pact.id}>
                 {<StyledLink to={`/pacts/${pact.id.toNumber() - 1}`}>
-                    {pact.description}
+                    { pact.description.length > 42 ? `${pact.description.slice(0, 42)}...` : pact.description }
                 </StyledLink>}
             </h3>
         )
