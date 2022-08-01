@@ -1,8 +1,16 @@
 import React, { useState, useContext } from "react"
 import { PactViewsContext } from "./Dapp"
+import styled from "styled-components"
 
 import "bulma/css/bulma.min.css"
 import { Button, Field, Label, Form } from "react-bulma-components"
+
+const StyledButton = styled(Button)`
+    background-color: #feef6d;
+    color: #313639;
+    outline: none;
+    border: 0;
+`
 
 export function NewPactForm() {
     const createPact = useContext(PactViewsContext).createPact
@@ -42,9 +50,9 @@ export function NewPactForm() {
                 </Form.Control>
             </Form.Field>
 
-            <Button color="primary" onClick={() => {
+            <StyledButton onClick={() => {
                 createPact(description, address)
-            }}>Submit</Button>
+            }}>Submit</StyledButton>
         </div>
     )
 }

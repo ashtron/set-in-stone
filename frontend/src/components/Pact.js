@@ -1,9 +1,26 @@
 import React, { useContext } from "react"
+import styled from "styled-components"
 import { useParams } from "react-router-dom"
 import "bulma/css/bulma.min.css"
 
 import { PactViewsContext } from "./Dapp"
 import { Card, Content, Button } from "react-bulma-components"
+
+const AcceptButton = styled(Button)`
+    background-color: #feef6d;
+    color: #313639;
+    outline: none;
+    border: 0;
+`
+
+const RejectButton = styled(Button)`
+    background-color: #ec7b24;
+    color: #f8f8ff;
+    outline: none;
+    border: 0;
+
+    &:hover { color: #f8f8ff }
+`
 
 export function Pact() {
     const { id } = useParams()
@@ -22,8 +39,8 @@ export function Pact() {
             if (pact.taker.toLowerCase() === selectedAddress.toLowerCase()) {
                 return (
                     <div>
-                        <Button onClick={() => { confirmPact(id) }}>Accept Pact</Button>
-                        <Button onClick={() => { rejectPact(id) }}>Reject Pact</Button>
+                        <AcceptButton onClick={() => { confirmPact(id) }}>Accept Pact</AcceptButton>
+                        <RejectButton onClick={() => { rejectPact(id) }}>Reject Pact</RejectButton>
                     </div>
                 )
             } else {
