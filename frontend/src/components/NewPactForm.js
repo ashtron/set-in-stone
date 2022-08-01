@@ -52,7 +52,7 @@ export function NewPactForm() {
 
             <StyledButton onClick={() => {
                 createPact(description, address)
-            }}>Submit</StyledButton>
+            }}>Create Pact</StyledButton>
         </div>
     )
 }

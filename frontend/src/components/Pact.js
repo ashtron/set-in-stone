@@ -11,6 +11,7 @@ const AcceptButton = styled(Button)`
     color: #313639;
     outline: none;
     border: 0;
+    margin-right: 12px;
 `
 
 const RejectButton = styled(Button)`

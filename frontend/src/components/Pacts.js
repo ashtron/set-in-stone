@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import { PactViewsContext } from "./Dapp"
 import { Pact } from "./Pact"
+import { NoPactsMessage } from "./NoPactsMessage"
 
 import { Link } from "react-router-dom"
 import { Button } from "react-bulma-components"
@@ -18,15 +19,6 @@ const StyledLink = styled(Link)`
 
 export function Pacts() {
     const pacts = useContext(PactViewsContext)._pacts
-
-    const noPactsMessage =
-        <div>
-            <h3>You haven't made any pacts yet!</h3>
-            
-            <Button style={{ marginTop: "1rem" }}>
-                <Link to="/pacts/new">Create a Pact</Link>
-            </Button>
-        </div>
     
     const pactComponents = pacts.map(pact => {
         return (
@@ -40,7 +32,7 @@ export function Pacts() {
 
     return (
         <div>
-            { pactComponents.length === 0 ? noPactsMessage : pactComponents }
+            { pactComponents.length === 0 ? <NoPactsMessage /> : pactComponents }
         </div>
     )
 }

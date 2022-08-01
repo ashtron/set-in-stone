@@ -9,9 +9,10 @@ import { ConnectWallet } from "./ConnectWallet"
 import { MainNavbar } from "./MainNavbar"
 
 import { Hero, Container, Box } from "react-bulma-components"
-import { Outlet } from "react-router-dom"
+import { Outlet, Link, Navigate, useLocation } from "react-router-dom"
 
 import "../css/mystyles.css"
+import { NoPactsMessage } from "./NoPactsMessage"
 
 const HARDHAT_NETWORK_ID = "1337"
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001
@@ -23,6 +24,8 @@ export function Dapp() {
   const [provider, setProvider] = useState("")
   const [setInStone, setSetInStone] = useState("")
   const [pacts, setPacts] = useState([])
+
+  const location = useLocation()
 
   useEffect(() => {
     if (provider !== "") {
@@ -81,6 +84,7 @@ export function Dapp() {
                 max="true"
               >
                 <Box>
+                  { location.pathname === "/" ? "Welcome!" : "" }
                   <Outlet />
                 </Box>
               </Container>
