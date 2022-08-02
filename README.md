@@ -2,7 +2,7 @@
 
 A simple dapp for making pacts with your friends (and enemies).
 
-Built with [Hardhat](https://hardhat.org/) and React.
+Built with [Hardhat](https://hardhat.org/tutorial/boilerplate-project) and React.
 
 [Live Demo (Kovan)](set-in-stone.surge.sh/)
 
