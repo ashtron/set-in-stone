@@ -1,6 +1,6 @@
 # Set in Stone
 
-A simple dapp for making pacts with your friends (and enemies).
+A simple dapp for making (immutable!) pacts with your friends (and enemies).
 
 Built with [Hardhat](https://hardhat.org/tutorial/boilerplate-project) and React.
 
