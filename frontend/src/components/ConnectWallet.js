@@ -13,7 +13,7 @@ export function ConnectWallet({ connectWallet }) {
           <Card>
             <Card.Content>
               <Content>
-                  <p>Please connect MetaMask to...</p>
+                  <p>Please connect MetaMask to the Kovan network.</p>
                   <Button onClick={connectWallet}>Connect Wallet</Button>
               </Content>
             </Card.Content>
