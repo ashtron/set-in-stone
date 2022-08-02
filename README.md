@@ -6,4 +6,4 @@ Built with [Hardhat](https://hardhat.org/) and React.
 
 [Live Demo (Kovan)](set-in-stone.surge.sh/)
 
-https://user-images.githubusercontent.com/2673057/182281378-5e018311-5b2c-44a2-935e-9d88bd83faa2.mp4
+https://user-images.githubusercontent.com/2673057/182281610-60632969-8040-4756-8a2f-48c122358911.mp4
