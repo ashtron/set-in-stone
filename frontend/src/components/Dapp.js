@@ -13,6 +13,7 @@ import { Outlet, Link, Navigate, useLocation } from "react-router-dom"
 
 import "../css/mystyles.css"
 import { NoPactsMessage } from "./NoPactsMessage"
+import { WelcomeMessage } from "./WelcomeMessage"
 
 const HARDHAT_NETWORK_ID = "1337"
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001
@@ -84,7 +85,7 @@ export function Dapp() {
                 max="true"
               >
                 <Box>
-                  { location.pathname === "/" ? "Welcome!" : "" }
+                  { location.pathname === "/" ? <WelcomeMessage /> : "" }
                   <Outlet />
                 </Box>
               </Container>
